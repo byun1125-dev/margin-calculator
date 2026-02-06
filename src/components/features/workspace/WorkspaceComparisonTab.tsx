@@ -1,8 +1,11 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { CostBreakdown } from '@/types/product';
 import { PlatformId, PlatformUserConfig, PlatformConfig } from '@/types/platform';
-import { calculateAllPlatforms } from '@/lib/calculations/marginCalculator';
+import { MarginCalculationResult } from '@/types/calculation';
+import { calculateAllPlatformsApi } from '@/lib/api/calculations';
+import { useDebounce } from '@/hooks/useDebounce';
 import { formatNumber } from '@/lib/utils/formatCurrency';
 import { getPlatformMap } from '@/lib/utils/platformUtils';
 import {
@@ -32,6 +35,37 @@ export function WorkspaceComparisonTab({
   platformConfigs,
   customPlatforms,
 }: WorkspaceComparisonTabProps) {
+  const [results, setResults] = useState<MarginCalculationResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const debouncedPrice = useDebounce(sellingPrice, 300);
+  const debouncedCosts = useDebounce(costs, 300);
+
+  const platformMap = getPlatformMap(customPlatforms);
+
+  useEffect(() => {
+    if (debouncedPrice === 0) {
+      setResults([]);
+      return;
+    }
+
+    let cancelled = false;
+    setIsLoading(true);
+
+    calculateAllPlatformsApi(debouncedPrice, debouncedCosts, activePlatforms, platformConfigs)
+      .then((data) => {
+        if (!cancelled) setResults(data);
+      })
+      .catch(() => {
+        if (!cancelled) setResults([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [debouncedPrice, debouncedCosts, activePlatforms, platformConfigs]);
+
   if (sellingPrice === 0) {
     return (
       <div className="text-center py-12">
@@ -42,8 +76,13 @@ export function WorkspaceComparisonTab({
     );
   }
 
-  const results = calculateAllPlatforms(sellingPrice, costs, activePlatforms, platformConfigs);
-  const platformMap = getPlatformMap(customPlatforms);
+  if (isLoading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-400 text-sm">계산 중...</p>
+      </div>
+    );
+  }
 
   const chartData = results.map((r) => ({
     name: r.platformName,

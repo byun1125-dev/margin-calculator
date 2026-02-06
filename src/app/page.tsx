@@ -1,11 +1,15 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useCalculatorStore } from '@/stores/useCalculatorStore';
 import { useProductStore } from '@/stores/useProductStore';
 import { useHydration } from '@/hooks/useHydration';
-import { calculateAllPlatforms, getTotalCost } from '@/lib/calculations/marginCalculator';
+import { useDebounce } from '@/hooks/useDebounce';
+import { getTotalCost } from '@/lib/utils/costUtils';
+import { calculateAllPlatformsApi } from '@/lib/api/calculations';
 import { formatNumber } from '@/lib/utils/formatCurrency';
+import { MarginCalculationResult } from '@/types/calculation';
 import { Card } from '@/components/ui/Card';
 import {
   Package,
@@ -19,6 +23,35 @@ export default function HomePage() {
   const { costs, sellingPrice, activePlatforms, platformConfigs } = useCalculatorStore();
   const { products } = useProductStore();
 
+  const [results, setResults] = useState<MarginCalculationResult[]>([]);
+  const [isCalculating, setIsCalculating] = useState(false);
+
+  const debouncedSellingPrice = useDebounce(sellingPrice, 300);
+  const debouncedCosts = useDebounce(costs, 300);
+
+  useEffect(() => {
+    if (!hydrated || debouncedSellingPrice <= 0) {
+      setResults([]);
+      return;
+    }
+
+    let cancelled = false;
+    setIsCalculating(true);
+
+    calculateAllPlatformsApi(debouncedSellingPrice, debouncedCosts, activePlatforms, platformConfigs)
+      .then((data) => {
+        if (!cancelled) setResults(data);
+      })
+      .catch(() => {
+        if (!cancelled) setResults([]);
+      })
+      .finally(() => {
+        if (!cancelled) setIsCalculating(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [hydrated, debouncedSellingPrice, debouncedCosts, activePlatforms, platformConfigs]);
+
   if (!hydrated) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -26,11 +59,6 @@ export default function HomePage() {
       </div>
     );
   }
-
-  const totalCost = getTotalCost(costs);
-  const results = sellingPrice > 0
-    ? calculateAllPlatforms(sellingPrice, costs, activePlatforms, platformConfigs)
-    : [];
 
   const bestResult = results.length > 0
     ? results.reduce((best, r) => (r.netProfit > best.netProfit ? r : best), results[0])
@@ -63,7 +91,7 @@ export default function HomePage() {
             <span className="text-sm text-gray-500">개</span>
           </div>
           <div className="mt-4 pt-4 border-t border-gray-100">
-            <Link 
+            <Link
               href="/products"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
             >
@@ -80,7 +108,9 @@ export default function HomePage() {
               <Layers size={20} />
             </div>
           </div>
-          {sellingPrice > 0 && bestResult ? (
+          {isCalculating ? (
+            <div className="text-gray-400 text-sm py-2">계산 중...</div>
+          ) : sellingPrice > 0 && bestResult ? (
             <div>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-xs text-gray-500">최고 수익</span>
@@ -101,7 +131,7 @@ export default function HomePage() {
             </div>
           )}
           <div className="mt-4 pt-4 border-t border-gray-100">
-            <Link 
+            <Link
               href="/workspace"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
             >
@@ -122,7 +152,7 @@ export default function HomePage() {
             이번 달 목표 수익을 위해<br/>무엇을 얼마나 팔아야 할까요?
           </p>
           <div className="mt-4 pt-4 border-t border-gray-100">
-            <Link 
+            <Link
               href="/breakeven"
               className="text-sm font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
             >
@@ -140,7 +170,7 @@ export default function HomePage() {
             전체보기
           </Link>
         </div>
-        
+
         {products.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             저장된 상품이 없습니다. 상품을 등록해보세요!
@@ -153,11 +183,11 @@ export default function HomePage() {
                   <h4 className="font-medium text-gray-900">{product.name}</h4>
                   <p className="text-xs text-gray-500 mt-1">
                     원가 {formatNumber(getTotalCost(product.costs))}원
-                    {product.sellingPrices.length > 0 && 
+                    {product.sellingPrices.length > 0 &&
                       ` · 판매가 ${formatNumber(product.sellingPrices[0].sellingPrice)}원 ~`}
                   </p>
                 </div>
-                <Link 
+                <Link
                   href={`/products?edit=${product.id}`}
                   className="text-xs font-medium text-gray-400 hover:text-indigo-600 border border-gray-200 rounded-lg px-3 py-1.5 hover:border-indigo-200 hover:bg-indigo-50 transition-all"
                 >

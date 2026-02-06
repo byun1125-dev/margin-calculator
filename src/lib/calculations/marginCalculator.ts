@@ -3,11 +3,10 @@ import { PlatformId, PlatformUserConfig } from '@/types/platform';
 import { MarginCalculationResult } from '@/types/calculation';
 import { PLATFORM_MAP } from '@/constants/platforms';
 import { calculatePlatformFees } from '@/lib/platforms';
+import { getTotalCost } from '@/lib/utils/costUtils';
 
-export function getTotalCost(costs: CostBreakdown): number {
-  const otherTotal = costs.otherCosts.reduce((sum, c) => sum + c.amount, 0);
-  return costs.manufacturingCost + costs.packagingCost + costs.shippingCost + otherTotal;
-}
+// 클라이언트 호환용 re-export
+export { getTotalCost } from '@/lib/utils/costUtils';
 
 export function calculateMargin(
   platformId: PlatformId,
@@ -17,7 +16,7 @@ export function calculateMargin(
 ): MarginCalculationResult {
   const platform = PLATFORM_MAP[platformId];
   const totalCost = getTotalCost(costs);
-  
+
   // 할인 적용
   let finalPrice = sellingPrice;
   const discount = userConfig?.discount;

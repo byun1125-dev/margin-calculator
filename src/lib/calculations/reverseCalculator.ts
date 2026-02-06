@@ -1,9 +1,11 @@
 import { CostBreakdown } from '@/types/product';
 import { PlatformId, PlatformUserConfig } from '@/types/platform';
 import { PLATFORM_MAP } from '@/constants/platforms';
-import { getTotalCost } from './marginCalculator';
+import { getTotalCost } from '@/lib/utils/costUtils';
+import type { ReverseCalculationMode } from '@/types/api';
 
-export type ReverseCalculationMode = 'amount' | 'percent';
+// 하위 호환용 re-export
+export type { ReverseCalculationMode } from '@/types/api';
 
 export function calculateRequiredPriceByAmount(
   platformId: PlatformId,
@@ -23,7 +25,7 @@ export function calculateRequiredPriceByAmount(
   // 판매가 - 원가 - (판매가 * 수수료율) = 목표 순이익
   // 판매가 * (1 - 수수료율) = 원가 + 목표 순이익
   // 판매가 = (원가 + 목표 순이익) / (1 - 수수료율)
-  
+
   const denominator = 1 - totalFeeRate;
 
   if (denominator <= 0) return 0;
@@ -51,7 +53,7 @@ export function calculateRequiredPriceByPercent(
   // 판매가 - 원가 - (판매가 * 수수료율) = 판매가 * (목표마진율 / 100)
   // 판매가 * (1 - 수수료율 - 목표마진율/100) = 원가
   // 판매가 = 원가 / (1 - 수수료율 - 목표마진율/100)
-  
+
   const marginRate = targetMarginPercent / 100;
   const denominator = 1 - totalFeeRate - marginRate;
 
@@ -69,8 +71,8 @@ export function calculateRequiredPriceAllPlatforms(
   platformConfigs: Partial<Record<PlatformId, Partial<PlatformUserConfig>>>
 ): Record<PlatformId, number> {
   const result = {} as Record<PlatformId, number>;
-  const calculateFn = mode === 'amount' 
-    ? calculateRequiredPriceByAmount 
+  const calculateFn = mode === 'amount'
+    ? calculateRequiredPriceByAmount
     : calculateRequiredPriceByPercent;
 
   for (const platformId of activePlatforms) {

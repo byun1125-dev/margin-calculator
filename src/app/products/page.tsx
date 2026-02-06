@@ -7,7 +7,7 @@ import { useHydration } from '@/hooks/useHydration';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { formatNumber } from '@/lib/utils/formatCurrency';
-import { getTotalCost } from '@/lib/calculations/marginCalculator';
+import { getTotalCost } from '@/lib/utils/costUtils';
 import { Package, Plus, Trash2, Copy, ArrowRight, X } from 'lucide-react';
 import { DEFAULT_COSTS, DEFAULT_SHIPPING } from '@/constants/defaults';
 

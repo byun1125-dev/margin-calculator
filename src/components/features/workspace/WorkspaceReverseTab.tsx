@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CostBreakdown } from '@/types/product';
 import { PlatformId, PlatformUserConfig, PlatformConfig } from '@/types/platform';
-import { calculateRequiredPriceAllPlatforms, ReverseCalculationMode } from '@/lib/calculations/reverseCalculator';
+import { calculateRequiredPriceAllPlatformsApi } from '@/lib/api/calculations';
+import { getTotalCost } from '@/lib/utils/costUtils';
+import { useDebounce } from '@/hooks/useDebounce';
 import { formatNumber } from '@/lib/utils/formatCurrency';
 import { getPlatformMap } from '@/lib/utils/platformUtils';
 import { Input } from '@/components/ui/Input';
+import type { ReverseCalculationMode } from '@/types/api';
 
 interface WorkspaceReverseTabProps {
   costs: CostBreakdown;
@@ -24,19 +27,33 @@ export function WorkspaceReverseTab({
   const [mode, setMode] = useState<ReverseCalculationMode>('amount');
   const [targetAmount, setTargetAmount] = useState(3000);
   const [targetPercent, setTargetPercent] = useState(30);
-  
+  const [requiredPrices, setRequiredPrices] = useState<Record<string, number>>({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const platformMap = getPlatformMap(customPlatforms);
-  const totalCost = costs.manufacturingCost + costs.packagingCost + costs.shippingCost + 
-    costs.otherCosts.reduce((sum, c) => sum + c.amount, 0);
+  const totalCost = getTotalCost(costs);
 
   const targetValue = mode === 'amount' ? targetAmount : targetPercent;
-  const requiredPrices = calculateRequiredPriceAllPlatforms(
-    mode,
-    targetValue,
-    costs,
-    activePlatforms,
-    platformConfigs
-  );
+  const debouncedTargetValue = useDebounce(targetValue, 300);
+  const debouncedCosts = useDebounce(costs, 300);
+
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+
+    calculateRequiredPriceAllPlatformsApi(mode, debouncedTargetValue, debouncedCosts, activePlatforms, platformConfigs)
+      .then((data) => {
+        if (!cancelled) setRequiredPrices(data);
+      })
+      .catch(() => {
+        if (!cancelled) setRequiredPrices({});
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, [mode, debouncedTargetValue, debouncedCosts, activePlatforms, platformConfigs]);
 
   return (
     <div className="space-y-6">
@@ -44,7 +61,7 @@ export function WorkspaceReverseTab({
       <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100">
         <h3 className="text-sm font-bold text-indigo-900 mb-2">💡 가격 역산이란?</h3>
         <p className="text-sm text-indigo-800 leading-relaxed">
-          <strong>얼마를 남기고 싶은지</strong> 입력하면, 수수료를 고려한 
+          <strong>얼마를 남기고 싶은지</strong> 입력하면, 수수료를 고려한
           <strong className="text-indigo-600"> 필요 판매가</strong>를 자동으로 계산해드립니다.
         </p>
       </div>
@@ -52,7 +69,7 @@ export function WorkspaceReverseTab({
       <div>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">목표 이익 설정</h3>
-          
+
           {/* 모드 토글 */}
           <div className="inline-flex rounded-lg border border-gray-300 bg-white p-0.5">
             <button
@@ -137,7 +154,7 @@ export function WorkspaceReverseTab({
 
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          {mode === 'amount' 
+          {mode === 'amount'
             ? `${formatNumber(targetAmount)}원을 남기려면 이 가격에 팔아야 합니다`
             : `판매가의 ${targetPercent}% 마진을 남기려면 이 가격에 팔아야 합니다`
           }
@@ -145,83 +162,90 @@ export function WorkspaceReverseTab({
         <p className="text-sm text-gray-500 mb-4">
           플랫폼별로 수수료가 다르기 때문에 필요한 판매가도 달라집니다
         </p>
-        <div className="space-y-3">
-          {activePlatforms.map((platformId) => {
-            const platform = platformMap[platformId];
-            const price = requiredPrices[platformId];
-            const feeRate = (platformConfigs[platformId]?.salesCommissionRate ?? platform?.salesCommission?.default ?? 0) + 
-                           (platformConfigs[platformId]?.paymentFeeRate ?? platform?.paymentFee?.default ?? 0);
-            const expectedFee = price > 0 ? Math.round(price * feeRate) : 0;
-            const expectedProfit = price > 0 ? price - totalCost - expectedFee : 0;
-            
-            return (
-              <div
-                key={platformId}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  price > 0 
-                    ? 'bg-white border-indigo-200 hover:border-indigo-300 hover:shadow-md' 
-                    : 'bg-gray-50 border-gray-200'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="w-10 h-10 rounded-xl flex-shrink-0"
-                      style={{ backgroundColor: platform?.color ?? '#888' }}
-                    />
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">
-                        {platform?.name ?? platformId}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        수수료: {(feeRate * 100).toFixed(1)}%
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    {price > 0 ? (
-                      <>
-                        <p className="text-2xl font-bold text-indigo-600">
-                          {formatNumber(price)}원
+
+        {isLoading ? (
+          <div className="text-center py-8">
+            <p className="text-gray-400 text-sm">계산 중...</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {activePlatforms.map((platformId) => {
+              const platform = platformMap[platformId];
+              const price = requiredPrices[platformId] ?? 0;
+              const feeRate = (platformConfigs[platformId]?.salesCommissionRate ?? platform?.salesCommission?.default ?? 0) +
+                             (platformConfigs[platformId]?.paymentFeeRate ?? platform?.paymentFee?.default ?? 0);
+              const expectedFee = price > 0 ? Math.round(price * feeRate) : 0;
+              const expectedProfit = price > 0 ? price - totalCost - expectedFee : 0;
+
+              return (
+                <div
+                  key={platformId}
+                  className={`p-4 rounded-xl border-2 transition-all ${
+                    price > 0
+                      ? 'bg-white border-indigo-200 hover:border-indigo-300 hover:shadow-md'
+                      : 'bg-gray-50 border-gray-200'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-10 h-10 rounded-xl flex-shrink-0"
+                        style={{ backgroundColor: platform?.color ?? '#888' }}
+                      />
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">
+                          {platform?.name ?? platformId}
                         </p>
-                        <p className="text-xs text-emerald-600 font-medium mt-1">
-                          순이익: {formatNumber(expectedProfit)}원
+                        <p className="text-xs text-gray-500">
+                          수수료: {(feeRate * 100).toFixed(1)}%
                         </p>
-                      </>
-                    ) : (
-                      <div className="text-sm">
-                        <p className="font-semibold text-red-600">계산 불가</p>
-                        <p className="text-xs text-red-500 mt-1">수수료가 너무 높습니다</p>
                       </div>
-                    )}
+                    </div>
+                    <div className="text-right">
+                      {price > 0 ? (
+                        <>
+                          <p className="text-2xl font-bold text-indigo-600">
+                            {formatNumber(price)}원
+                          </p>
+                          <p className="text-xs text-emerald-600 font-medium mt-1">
+                            순이익: {formatNumber(expectedProfit)}원
+                          </p>
+                        </>
+                      ) : (
+                        <div className="text-sm">
+                          <p className="font-semibold text-red-600">계산 불가</p>
+                          <p className="text-xs text-red-500 mt-1">수수료가 너무 높습니다</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                  {price > 0 && (
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      <div className="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>판매가</span>
+                        <span className="font-medium">{formatNumber(price)}원</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>- 원가</span>
+                        <span className="font-medium">-{formatNumber(totalCost)}원</span>
+                      </div>
+                      <div className="flex justify-between text-xs text-gray-600 mb-2">
+                        <span>- 수수료</span>
+                        <span className="font-medium">-{formatNumber(expectedFee)}원</span>
+                      </div>
+                      <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
+                        <span className="font-semibold text-gray-900">순이익</span>
+                        <span className="font-bold text-emerald-600">
+                          {formatNumber(expectedProfit)}원 ✓
+                        </span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {price > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-100">
-                    <div className="flex justify-between text-xs text-gray-600 mb-1">
-                      <span>판매가</span>
-                      <span className="font-medium">{formatNumber(price)}원</span>
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-600 mb-1">
-                      <span>- 원가</span>
-                      <span className="font-medium">-{formatNumber(totalCost)}원</span>
-                    </div>
-                    <div className="flex justify-between text-xs text-gray-600 mb-2">
-                      <span>- 수수료</span>
-                      <span className="font-medium">-{formatNumber(expectedFee)}원</span>
-                    </div>
-                    <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
-                      <span className="font-semibold text-gray-900">순이익</span>
-                      <span className="font-bold text-emerald-600">
-                        {formatNumber(expectedProfit)}원 ✓
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">

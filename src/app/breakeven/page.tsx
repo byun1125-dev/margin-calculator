@@ -1,15 +1,22 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useProductStore } from '@/stores/useProductStore';
 import { useCalculatorStore } from '@/stores/useCalculatorStore';
 import { useHydration } from '@/hooks/useHydration';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { formatNumber } from '@/lib/utils/formatCurrency';
-import { calculateMargin, getTotalCost } from '@/lib/calculations/marginCalculator';
+import { calculateAllPlatformsApi } from '@/lib/api/calculations';
 import { TrendingUp, Target, DollarSign, Package, Plus, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+
+interface ProductMarginData {
+  id: string;
+  name: string;
+  avgMargin: number;
+  valid: boolean;
+}
 
 export default function BreakevenPage() {
   const hydrated = useHydration();
@@ -20,36 +27,66 @@ export default function BreakevenPage() {
   const [monthlyFixedCost, setMonthlyFixedCost] = useState(2000000); // 월 고정비 (기본 200만)
   const [targetProfit, setTargetProfit] = useState(3000000); // 목표 순수익 (기본 300만)
   const [productQuantities, setProductQuantities] = useState<Record<string, number>>({});
+  const [productMargins, setProductMargins] = useState<ProductMarginData[]>([]);
+  const [isLoadingMargins, setIsLoadingMargins] = useState(false);
 
-  // 제품별 평균 마진 계산 (미리 연산)
-  const productMargins = useMemo(() => {
-    return products.map((product) => {
-      // 활성화된 플랫폼들의 마진을 계산하여 평균값 도출
-      const activePrices = product.sellingPrices.filter((p) => p.isActive && p.sellingPrice > 0);
-      
-      if (activePrices.length === 0) {
-        return { ...product, avgMargin: 0, valid: false };
+  // 제품별 평균 마진 계산 (API 호출)
+  useEffect(() => {
+    if (!hydrated || products.length === 0) {
+      setProductMargins([]);
+      return;
+    }
+
+    let cancelled = false;
+    setIsLoadingMargins(true);
+
+    const computeMargins = async () => {
+      const results: ProductMarginData[] = [];
+
+      for (const product of products) {
+        const activePrices = product.sellingPrices.filter((p) => p.isActive && p.sellingPrice > 0);
+
+        if (activePrices.length === 0) {
+          results.push({ id: product.id, name: product.name, avgMargin: 0, valid: false });
+          continue;
+        }
+
+        try {
+          // 각 활성 가격의 플랫폼에 대해 마진 계산
+          let totalMargin = 0;
+          for (const p of activePrices) {
+            const marginResults = await calculateAllPlatformsApi(
+              p.sellingPrice,
+              product.costs,
+              [p.platformId],
+              { [p.platformId]: platformConfigs[p.platformId] }
+            );
+            if (marginResults.length > 0) {
+              totalMargin += marginResults[0].netProfit;
+            }
+          }
+
+          const avgMargin = Math.round(totalMargin / activePrices.length);
+          results.push({ id: product.id, name: product.name, avgMargin, valid: true });
+        } catch {
+          results.push({ id: product.id, name: product.name, avgMargin: 0, valid: false });
+        }
       }
 
-      let totalMargin = 0;
-      activePrices.forEach((p) => {
-        const result = calculateMargin(
-          p.platformId,
-          p.sellingPrice,
-          product.costs,
-          platformConfigs[p.platformId]
-        );
-        totalMargin += result.netProfit;
-      });
+      if (!cancelled) {
+        setProductMargins(results);
+        setIsLoadingMargins(false);
+      }
+    };
 
-      const avgMargin = Math.round(totalMargin / activePrices.length);
-      return { ...product, avgMargin, valid: true };
-    });
-  }, [products, platformConfigs]);
+    computeMargins();
+
+    return () => { cancelled = true; };
+  }, [hydrated, products, platformConfigs]);
 
   // 계산 로직
   const totalGoal = monthlyFixedCost + targetProfit; // 총 목표 금액
-  
+
   const currentProfit = productMargins.reduce((sum, product) => {
     const qty = productQuantities[product.id] || 0;
     return sum + (product.avgMargin * qty);
@@ -86,9 +123,9 @@ export default function BreakevenPage() {
             이번 달 목표를 위해 어떤 제품을 얼마나 팔아야 할까요? (블록 쌓기)
           </p>
         </div>
-        
+
         {products.length === 0 && (
-          <Link 
+          <Link
             href="/products"
             className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
           >
@@ -153,7 +190,7 @@ export default function BreakevenPage() {
 
             {/* 게이지 바 */}
             <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden mb-2">
-              <div 
+              <div
                 className={`absolute top-0 left-0 h-full transition-all duration-500 ease-out flex items-center justify-end px-3 ${
                   isGoalReached ? 'bg-emerald-500' : 'bg-indigo-500'
                 }`}
@@ -164,7 +201,7 @@ export default function BreakevenPage() {
                 </span>
               </div>
             </div>
-            
+
             {/* 눈금자 */}
             <div className="flex justify-between text-xs text-gray-400 px-1">
               <span>0%</span>
@@ -181,30 +218,34 @@ export default function BreakevenPage() {
           <Package className="text-indigo-600" />
           제품별 판매 목표 설정 (블록 쌓기)
         </h3>
-        
+
         {products.length === 0 ? (
           <div className="bg-gray-50 rounded-2xl p-8 text-center border border-gray-200 border-dashed">
             <AlertCircle className="mx-auto text-gray-400 mb-3" size={32} />
             <p className="text-gray-500 mb-4">등록된 제품이 없습니다.</p>
-            <Link 
+            <Link
               href="/products"
               className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
             >
               제품 등록하러 가기
             </Link>
           </div>
+        ) : isLoadingMargins ? (
+          <div className="text-center py-12">
+            <p className="text-gray-400 text-sm">마진 계산 중...</p>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {productMargins.map((product) => {
               if (!product.valid) return null;
-              
+
               const qty = productQuantities[product.id] || 0;
               const contribution = qty * product.avgMargin;
               const contributionPercent = totalGoal > 0 ? (contribution / totalGoal) * 100 : 0;
 
               return (
-                <div 
-                  key={product.id} 
+                <div
+                  key={product.id}
                   className={`bg-white rounded-2xl border p-4 transition-all ${
                     qty > 0 ? 'border-indigo-200 shadow-sm ring-1 ring-indigo-50' : 'border-gray-200'
                   }`}
@@ -227,7 +268,7 @@ export default function BreakevenPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-gray-700">목표 수량</span>
                       <div className="flex items-center gap-3">
-                        <button 
+                        <button
                           onClick={() => handleQuantityChange(product.id, qty - 10)}
                           className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
                         >
@@ -239,7 +280,7 @@ export default function BreakevenPage() {
                           onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value) || 0)}
                           className="w-16 text-center font-bold text-lg border-b-2 border-indigo-100 focus:border-indigo-500 focus:outline-none"
                         />
-                        <button 
+                        <button
                           onClick={() => handleQuantityChange(product.id, qty + 10)}
                           className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
                         >
@@ -251,7 +292,7 @@ export default function BreakevenPage() {
                     <input
                       type="range"
                       min="0"
-                      max="1000" // 슬라이더 최대값 (적절히 조절 가능)
+                      max="1000"
                       step="10"
                       value={qty}
                       onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}

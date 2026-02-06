@@ -5,7 +5,7 @@ import { persist } from 'zustand/middleware';
 import { CostBreakdown, ShippingConfig } from '@/types/product';
 import { PlatformId, PlatformUserConfig } from '@/types/platform';
 import { DEFAULT_COSTS, DEFAULT_SHIPPING } from '@/constants/defaults';
-import { PLATFORMS } from '@/constants/platforms';
+import { DEFAULT_PLATFORM_IDS } from '@/constants/platformIds';
 
 interface CalculatorState {
   costs: CostBreakdown;
@@ -25,7 +25,7 @@ interface CalculatorState {
 const initialState = {
   costs: DEFAULT_COSTS,
   sellingPrice: 0,
-  activePlatforms: PLATFORMS.map((p) => p.id) as PlatformId[],
+  activePlatforms: DEFAULT_PLATFORM_IDS,
   platformConfigs: {} as Partial<Record<PlatformId, Partial<PlatformUserConfig>>>,
   shippingConfig: DEFAULT_SHIPPING,
 };
