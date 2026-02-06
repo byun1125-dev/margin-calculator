@@ -37,6 +37,7 @@ export interface PlatformDiscount {
 export interface PlatformUserConfig {
   salesCommissionRate: number;
   paymentFeeRate: number;
+  color?: string; // 사용자 정의 컬러
   discount?: PlatformDiscount;
 }
 

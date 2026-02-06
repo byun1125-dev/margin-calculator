@@ -78,6 +78,7 @@ export default function PlatformsPage() {
               const userConfig = platformConfigs[platform.id];
               const salesRate = userConfig?.salesCommissionRate ?? platform.salesCommission.default;
               const paymentRate = userConfig?.paymentFeeRate ?? platform.paymentFee.default;
+              const displayColor = userConfig?.color ?? platform.color;
               const hasCustomFees = !!userConfig;
               
               return (
@@ -85,7 +86,7 @@ export default function PlatformsPage() {
                   <div className="flex items-start gap-3">
                     <div
                       className="w-10 h-10  flex-shrink-0"
-                      style={{ backgroundColor: platform.color }}
+                      style={{ backgroundColor: displayColor }}
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-gray-900 text-sm">{platform.name}</h4>
@@ -113,7 +114,7 @@ export default function PlatformsPage() {
                     className="flex items-center justify-center gap-1.5 w-full mt-3 pt-3 border-t border-gray-100 px-3 py-1.5  text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                   >
                     <Settings size={12} />
-                    수수료 설정
+                    설정
                   </button>
                 </Card>
               );
@@ -154,6 +155,7 @@ export default function PlatformsPage() {
                 const userConfig = platformConfigs[platform.id];
                 const salesRate = userConfig?.salesCommissionRate ?? platform.salesCommission.default;
                 const paymentRate = userConfig?.paymentFeeRate ?? platform.paymentFee.default;
+                const displayColor = userConfig?.color ?? platform.color;
                 const hasCustomFees = !!userConfig;
 
                 return (
@@ -161,7 +163,7 @@ export default function PlatformsPage() {
                     <div className="flex items-start gap-3">
                       <div
                         className="w-10 h-10  flex-shrink-0"
-                        style={{ backgroundColor: platform.color }}
+                        style={{ backgroundColor: displayColor }}
                       />
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-gray-900 text-sm">{platform.name}</h4>
@@ -192,14 +194,14 @@ export default function PlatformsPage() {
                         className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5  text-xs font-medium text-gray-900 hover:bg-gray-50 transition-colors"
                       >
                         <Settings size={12} />
-                        수수료
+                        설정
                       </button>
                       <button
                         onClick={() => handleEdit(platform)}
                         className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5  text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                       >
                         <Edit2 size={12} />
-                        수정
+                        편집
                       </button>
                       <button
                         onClick={() => handleDelete(platform.id)}

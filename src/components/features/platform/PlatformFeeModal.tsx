@@ -12,16 +12,23 @@ interface PlatformFeeModalProps {
   platform?: PlatformConfig;
 }
 
+const PRESET_COLORS = [
+  '#6366F1', '#8B5CF6', '#EC4899', '#EF4444', '#F59E0B',
+  '#10B981', '#06B6D4', '#3B82F6', '#000000', '#6B7280',
+];
+
 export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModalProps) {
   const { platformConfigs, setPlatformConfig } = useCalculatorStore();
   const [salesRate, setSalesRate] = useState(0);
   const [paymentRate, setPaymentRate] = useState(0);
+  const [color, setColor] = useState('#6366F1');
 
   useEffect(() => {
     if (platform) {
       const userConfig = platformConfigs[platform.id];
       setSalesRate((userConfig?.salesCommissionRate ?? platform.salesCommission.default) * 100);
       setPaymentRate((userConfig?.paymentFeeRate ?? platform.paymentFee.default) * 100);
+      setColor(userConfig?.color ?? platform.color);
     }
   }, [platform, platformConfigs]);
 
@@ -31,6 +38,7 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
     setPlatformConfig(platform.id, {
       salesCommissionRate: salesRate / 100,
       paymentFeeRate: paymentRate / 100,
+      color: color,
     });
     onClose();
   };
@@ -38,9 +46,11 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
   const handleReset = () => {
     setSalesRate(platform.salesCommission.default * 100);
     setPaymentRate(platform.paymentFee.default * 100);
+    setColor(platform.color);
     setPlatformConfig(platform.id, {
       salesCommissionRate: platform.salesCommission.default,
       paymentFeeRate: platform.paymentFee.default,
+      color: platform.color,
     });
   };
 
@@ -51,7 +61,7 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
       <div className="bg-white  max-w-md w-full">
         <div className="border-b border-gray-100 p-5 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">{platform.name} 수수료 설정</h2>
+            <h2 className="text-lg font-bold text-gray-900">{platform.name} 설정</h2>
             <p className="text-xs text-gray-500 mt-1">{platform.description}</p>
           </div>
           <button
@@ -63,6 +73,33 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
         </div>
 
         <div className="p-5 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              플랫폼 컬러
+            </label>
+            <div className="flex gap-2 flex-wrap">
+              {PRESET_COLORS.map((presetColor) => (
+                <button
+                  key={presetColor}
+                  type="button"
+                  onClick={() => setColor(presetColor)}
+                  className={`w-10 h-10  transition-all ${
+                    color === presetColor
+                      ? 'ring-2 ring-offset-2 ring-gray-900 scale-110'
+                      : 'hover:scale-105'
+                  }`}
+                  style={{ backgroundColor: presetColor }}
+                />
+              ))}
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                className="w-10 h-10  cursor-pointer border border-gray-200"
+              />
+            </div>
+          </div>
+
           <div>
             <Input
               label="판매 수수료"
