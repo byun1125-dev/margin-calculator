@@ -1,14 +1,15 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getAnalytics, Analytics } from 'firebase/analytics';
 
+// 환경 변수 입력 없이 바로 배포되도록 값을 직접 입력했습니다.
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyAzEcP0cQBuN8KCJ4a_24Ig9aMoTjYqp8g",
+  authDomain: "margin-8a4fb.firebaseapp.com",
+  projectId: "margin-8a4fb",
+  storageBucket: "margin-8a4fb.firebasestorage.app",
+  messagingSenderId: "627452716991",
+  appId: "1:627452716991:web:f0cf3d3f3e9222d24ea30a",
+  measurementId: "G-Z2R3JHTVDE",
 };
 
 // Initialize Firebase (singleton pattern)
