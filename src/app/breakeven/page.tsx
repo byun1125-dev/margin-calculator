@@ -181,11 +181,9 @@ export default function BreakevenPage() {
               <p className="text-3xl font-bold text-gray-900 mt-2">
                 {formatNumber(currentProfit)}원 <span className="text-base text-gray-400 font-normal">/ {formatNumber(totalGoal)}원</span>
               </p>
-              {!isGoalReached && (
-                <p className="text-sm text-red-500 font-medium mt-2">
-                  {formatNumber(remainingAmount)}원 더 벌어야 해요 🔥
-                </p>
-              )}
+              <p className={`text-sm text-red-500 font-medium mt-2 ${isGoalReached ? 'invisible' : 'visible'}`}>
+                {formatNumber(remainingAmount)}원 더 벌어야 해요 🔥
+              </p>
             </div>
 
             {/* 게이지 바 */}
