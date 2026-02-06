@@ -116,7 +116,7 @@ export default function BreakevenPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <TrendingUp className="text-indigo-600" />
+            <TrendingUp className="text-gray-900" />
             목표 이익 시뮬레이터
           </h2>
           <p className="text-sm text-gray-500 mt-1">
@@ -127,7 +127,7 @@ export default function BreakevenPage() {
         {products.length === 0 && (
           <Link
             href="/products"
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white  text-sm font-medium hover:bg-gray-800 transition-colors"
           >
             <Plus size={16} />
             제품 먼저 등록하기
@@ -164,7 +164,7 @@ export default function BreakevenPage() {
             <div className="pt-4 border-t border-gray-100">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-bold text-gray-700">총 필요 금액</span>
-                <span className="text-xl font-bold text-indigo-600">{formatNumber(totalGoal)}원</span>
+                <span className="text-xl font-bold text-gray-900">{formatNumber(totalGoal)}원</span>
               </div>
               <p className="text-xs text-gray-400 mt-1 text-right">고정비 + 목표수익</p>
             </div>
@@ -173,7 +173,7 @@ export default function BreakevenPage() {
 
         {/* 2. 대시보드 (게이지) */}
         <div className="md:col-span-2">
-          <Card className={`h-full flex flex-col justify-center transition-colors ${isGoalReached ? 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200' : ''}`}>
+          <Card className={`h-full flex flex-col justify-center transition-colors ${isGoalReached ? 'bg-gray-50 border-gray-900' : ''}`}>
             <div className="text-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-1">
                 {isGoalReached ? '🎉 목표 달성! 축하합니다!' : '목표까지 열심히 달려봐요!'}
@@ -187,10 +187,10 @@ export default function BreakevenPage() {
             </div>
 
             {/* 게이지 바 */}
-            <div className="relative h-8 bg-gray-100 rounded-full overflow-hidden mb-2">
+            <div className="relative h-8 bg-gray-100  overflow-hidden mb-2">
               <div
                 className={`absolute top-0 left-0 h-full transition-all duration-500 ease-out flex items-center justify-end px-3 ${
-                  isGoalReached ? 'bg-emerald-500' : 'bg-indigo-500'
+                  isGoalReached ? 'bg-emerald-500' : 'bg-gray-1000'
                 }`}
                 style={{ width: `${progressPercent}%` }}
               >
@@ -213,17 +213,17 @@ export default function BreakevenPage() {
       {/* 3. 제품 블록 쌓기 게임 */}
       <div>
         <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Package className="text-indigo-600" />
+          <Package className="text-gray-900" />
           제품별 판매 목표 설정 (블록 쌓기)
         </h3>
 
         {products.length === 0 ? (
-          <div className="bg-gray-50 rounded-2xl p-8 text-center border border-gray-200 border-dashed">
+          <div className="bg-gray-50  p-8 text-center border border-gray-200 border-dashed">
             <AlertCircle className="mx-auto text-gray-400 mb-3" size={32} />
             <p className="text-gray-500 mb-4">등록된 제품이 없습니다.</p>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white  text-sm font-medium hover:bg-gray-800 transition-colors"
             >
               제품 등록하러 가기
             </Link>
@@ -244,19 +244,19 @@ export default function BreakevenPage() {
               return (
                 <div
                   key={product.id}
-                  className={`bg-white rounded-2xl border p-4 transition-all ${
-                    qty > 0 ? 'border-indigo-200 shadow-sm ring-1 ring-indigo-50' : 'border-gray-200'
+                  className={`bg-white  border p-4 transition-all ${
+                    qty > 0 ? 'border-gray-300  ' : 'border-gray-200'
                   }`}
                 >
                   <div className="flex justify-between items-start mb-3">
                     <div>
                       <h4 className="font-bold text-gray-900 line-clamp-1">{product.name}</h4>
                       <p className="text-xs text-gray-500 mt-0.5">
-                        개당 평균 마진: <span className="text-indigo-600 font-semibold">{formatNumber(product.avgMargin)}원</span>
+                        개당 평균 마진: <span className="text-gray-900 font-semibold">{formatNumber(product.avgMargin)}원</span>
                       </p>
                     </div>
                     {contributionPercent > 0 && (
-                      <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">
+                      <span className="text-xs font-bold text-gray-900 bg-gray-100 px-2 py-1 ">
                         {contributionPercent.toFixed(1)}% 기여
                       </span>
                     )}
@@ -268,7 +268,7 @@ export default function BreakevenPage() {
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => handleQuantityChange(product.id, qty - 10)}
-                          className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
+                          className="w-8 h-8  bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
                         >
                           -10
                         </button>
@@ -276,11 +276,11 @@ export default function BreakevenPage() {
                           type="number"
                           value={qty}
                           onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value) || 0)}
-                          className="w-16 text-center font-bold text-lg border-b-2 border-indigo-100 focus:border-indigo-500 focus:outline-none"
+                          className="w-16 text-center font-bold text-lg border-b-2 border-indigo-100 focus:border-gray-900 focus:outline-none"
                         />
                         <button
                           onClick={() => handleQuantityChange(product.id, qty + 10)}
-                          className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
+                          className="w-8 h-8  bg-gray-100 text-gray-600 flex items-center justify-center hover:bg-gray-200"
                         >
                           +10
                         </button>
@@ -294,12 +294,12 @@ export default function BreakevenPage() {
                       step="10"
                       value={qty}
                       onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
-                      className="w-full accent-indigo-600 h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer"
+                      className="w-full accent-gray-900 h-2 bg-gray-100  appearance-none cursor-pointer"
                     />
 
                     <div className="pt-3 border-t border-gray-50 flex justify-between items-center bg-gray-50 -mx-4 -mb-4 px-4 py-3 rounded-b-xl">
                       <span className="text-xs text-gray-500">예상 수익</span>
-                      <span className={`font-bold ${contribution > 0 ? 'text-indigo-600' : 'text-gray-400'}`}>
+                      <span className={`font-bold ${contribution > 0 ? 'text-gray-900' : 'text-gray-400'}`}>
                         +{formatNumber(contribution)}원
                       </span>
                     </div>

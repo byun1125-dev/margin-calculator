@@ -19,8 +19,8 @@ export default function ComparisonPage() {
     <div className="max-w-2xl mx-auto flex items-center justify-center min-h-[60vh]">
       <div className="text-center">
         <div className="mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-100 mb-4">
-            <ArrowRight className="text-indigo-600" size={32} />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+            <ArrowRight className="text-gray-900" size={32} />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">워크스페이스로 이동</h2>
           <p className="text-gray-500">
@@ -29,7 +29,7 @@ export default function ComparisonPage() {
         </div>
         <button
           onClick={() => router.push('/workspace')}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 text-white font-medium hover:bg-gray-800 transition-colors"
         >
           워크스페이스로 이동
           <ArrowRight size={18} />

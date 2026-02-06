@@ -84,7 +84,7 @@ export default function PlatformsPage() {
                 <Card key={platform.id}>
                   <div className="flex items-start gap-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex-shrink-0"
+                      className="w-10 h-10  flex-shrink-0"
                       style={{ backgroundColor: platform.color }}
                     />
                     <div className="flex-1 min-w-0">
@@ -93,16 +93,16 @@ export default function PlatformsPage() {
                         {platform.description}
                       </p>
                       <div className="mt-2 flex gap-2 text-xs">
-                        <span className={hasCustomFees ? 'text-indigo-600 font-medium' : 'text-gray-400'}>
+                        <span className={hasCustomFees ? 'text-gray-900 font-medium' : 'text-gray-400'}>
                           판매 {(salesRate * 100).toFixed(1)}%
                         </span>
                         <span className="text-gray-300">•</span>
-                        <span className={hasCustomFees ? 'text-indigo-600 font-medium' : 'text-gray-400'}>
+                        <span className={hasCustomFees ? 'text-gray-900 font-medium' : 'text-gray-400'}>
                           결제 {(paymentRate * 100).toFixed(2)}%
                         </span>
                       </div>
                       {hasCustomFees && (
-                        <span className="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-600">
+                        <span className="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-900">
                           커스텀 수수료
                         </span>
                       )}
@@ -110,7 +110,7 @@ export default function PlatformsPage() {
                   </div>
                   <button
                     onClick={() => handleEditFees(platform)}
-                    className="flex items-center justify-center gap-1.5 w-full mt-3 pt-3 border-t border-gray-100 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-center gap-1.5 w-full mt-3 pt-3 border-t border-gray-100 px-3 py-1.5  text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                   >
                     <Settings size={12} />
                     수수료 설정
@@ -127,7 +127,7 @@ export default function PlatformsPage() {
             <h3 className="text-lg font-semibold text-gray-900">커스텀 플랫폼</h3>
             <button
               onClick={handleAdd}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2  bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
             >
               <Plus size={16} />
               플랫폼 추가
@@ -142,7 +142,7 @@ export default function PlatformsPage() {
                 </p>
                 <button
                   onClick={handleAdd}
-                  className="text-indigo-600 text-sm font-medium hover:text-indigo-700"
+                  className="text-gray-900 text-sm font-medium hover:text-gray-900"
                 >
                   첫 번째 플랫폼 추가하기
                 </button>
@@ -160,7 +160,7 @@ export default function PlatformsPage() {
                   <Card key={platform.id}>
                     <div className="flex items-start gap-3">
                       <div
-                        className="w-10 h-10 rounded-xl flex-shrink-0"
+                        className="w-10 h-10  flex-shrink-0"
                         style={{ backgroundColor: platform.color }}
                       />
                       <div className="flex-1 min-w-0">
@@ -171,16 +171,16 @@ export default function PlatformsPage() {
                           </p>
                         )}
                         <div className="mt-2 flex gap-2 text-xs">
-                          <span className={hasCustomFees ? 'text-indigo-600 font-medium' : 'text-gray-400'}>
+                          <span className={hasCustomFees ? 'text-gray-900 font-medium' : 'text-gray-400'}>
                             판매 {(salesRate * 100).toFixed(1)}%
                           </span>
                           <span className="text-gray-300">•</span>
-                          <span className={hasCustomFees ? 'text-indigo-600 font-medium' : 'text-gray-400'}>
+                          <span className={hasCustomFees ? 'text-gray-900 font-medium' : 'text-gray-400'}>
                             결제 {(paymentRate * 100).toFixed(2)}%
                           </span>
                         </div>
                         {hasCustomFees && (
-                          <span className="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-600">
+                          <span className="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-900">
                             커스텀 수수료
                           </span>
                         )}
@@ -189,21 +189,21 @@ export default function PlatformsPage() {
                     <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100">
                       <button
                         onClick={() => handleEditFees(platform)}
-                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-indigo-600 hover:bg-indigo-50 transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5  text-xs font-medium text-gray-900 hover:bg-gray-50 transition-colors"
                       >
                         <Settings size={12} />
                         수수료
                       </button>
                       <button
                         onClick={() => handleEdit(platform)}
-                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5  text-xs font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                       >
                         <Edit2 size={12} />
                         수정
                       </button>
                       <button
                         onClick={() => handleDelete(platform.id)}
-                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 hover:bg-red-50 transition-colors"
+                        className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5  text-xs font-medium text-red-600 hover:bg-red-50 transition-colors"
                       >
                         <Trash2 size={12} />
                         삭제

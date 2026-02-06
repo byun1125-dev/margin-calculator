@@ -18,15 +18,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className="relative">
           <input
             ref={ref}
-            className={`w-full px-3 py-2.5 rounded-xl border text-sm transition-colors
-              ${error ? 'border-red-300 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-200'}
-              focus:outline-none focus:ring-2 focus:ring-offset-0
+            className={`w-full px-3 py-2 border text-sm transition-colors bg-white
+              ${error ? 'border-red-400 focus:border-red-600' : 'border-gray-300 focus:border-gray-900'}
+              focus:outline-none
               ${suffix ? 'pr-10' : ''}
               ${className}`}
             {...props}
           />
           {suffix && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400">
               {suffix}
             </span>
           )}

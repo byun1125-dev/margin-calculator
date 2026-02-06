@@ -43,11 +43,11 @@ export function MarginResultCard({ result, originalPrice }: MarginResultCardProp
   };
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-white  border-2 border-gray-200 p-4  hover: transition-shadow">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <div
-            className="w-3 h-3 rounded-full"
+            className="w-3 h-3 "
             style={{ backgroundColor: platform?.color ?? '#888' }}
           />
           <span className="font-semibold text-gray-900 text-sm">{result.platformName}</span>
@@ -58,13 +58,13 @@ export function MarginResultCard({ result, originalPrice }: MarginResultCardProp
       </div>
 
       {/* 할인 설정 */}
-      <div className="mb-3 px-3 py-2 rounded-lg bg-gray-50">
+      <div className="mb-3 px-3 py-2  bg-gray-50">
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
             checked={hasDiscount}
             onChange={toggleDiscount}
-            className="w-4 h-4 text-indigo-600 rounded"
+            className="w-4 h-4 text-gray-900 rounded"
           />
           <span className="text-sm font-medium text-gray-700">할인</span>
           {hasDiscount && (
@@ -94,7 +94,7 @@ export function MarginResultCard({ result, originalPrice }: MarginResultCardProp
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">할인가</span>
-              <span className="text-indigo-600 font-semibold">{formatNumber(result.sellingPrice)}원</span>
+              <span className="text-gray-900 font-semibold">{formatNumber(result.sellingPrice)}원</span>
             </div>
           </>
         )}

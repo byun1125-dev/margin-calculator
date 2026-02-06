@@ -109,7 +109,7 @@ export function WorkspaceSimulationTab({
               step={1}
               value={discountPercent}
               onChange={(e) => setDiscountPercent(parseInt(e.target.value))}
-              className="w-full accent-indigo-600"
+              className="w-full accent-gray-900"
             />
             <div className="flex justify-between text-xs text-gray-400 mt-1">
               <span>0%</span>
@@ -117,8 +117,8 @@ export function WorkspaceSimulationTab({
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-indigo-50 text-sm">
-            <p className="text-indigo-700">
+          <div className="p-4  bg-gray-50 text-sm">
+            <p className="text-gray-900">
               할인가: <strong>{formatNumber(Math.round(sellingPrice * (1 - discountPercent / 100)))}원</strong>
               {' '}(원래 {formatNumber(sellingPrice)}원에서 {formatNumber(Math.round(sellingPrice * discountPercent / 100))}원 할인)
             </p>
@@ -133,7 +133,7 @@ export function WorkspaceSimulationTab({
           <select
             value={selectedPlatform}
             onChange={(e) => setSelectedPlatform(e.target.value as PlatformId)}
-            className="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-indigo-500"
+            className="w-full px-3 py-2  border border-gray-300 text-sm focus:outline-none focus:border-gray-900"
           >
             {activePlatforms.map((id) => {
               const platform = platformMap[id];
@@ -196,10 +196,10 @@ export function WorkspaceSimulationTab({
               const platform = platformMap[platformId];
               const { originalMargin, discountedMargin, marginDifference } = result;
               return (
-                <div key={platformId} className="p-4 rounded-xl bg-gray-50">
+                <div key={platformId} className="p-4  bg-gray-50">
                   <div className="flex items-center gap-2 mb-3">
                     <div
-                      className="w-2.5 h-2.5 rounded-full"
+                      className="w-2.5 h-2.5 "
                       style={{ backgroundColor: platform?.color ?? '#888' }}
                     />
                     <span className="text-sm font-semibold text-gray-800">

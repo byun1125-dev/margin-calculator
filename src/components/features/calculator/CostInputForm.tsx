@@ -129,7 +129,7 @@ export function CostInputForm() {
 
           <button
             onClick={addOtherCost}
-            className="flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-700 font-medium mt-2"
+            className="flex items-center gap-1.5 text-sm text-gray-900 hover:text-gray-900 font-medium mt-2"
           >
             <Plus size={16} />
             기타 비용 추가

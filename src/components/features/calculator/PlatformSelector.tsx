@@ -21,15 +21,15 @@ export function PlatformSelector() {
             <button
               key={platform.id}
               onClick={() => togglePlatform(platform.id)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium transition-all border
+              className={`flex items-center gap-1.5 px-3 py-2  text-sm font-medium transition-all border
                 ${
                   isActive
-                    ? 'border-indigo-200 bg-indigo-50 text-indigo-700'
+                    ? 'border-gray-300 bg-gray-50 text-gray-900'
                     : 'border-gray-200 bg-white text-gray-400 hover:border-gray-300'
                 }`}
             >
               <div
-                className={`w-2.5 h-2.5 rounded-full transition-opacity ${
+                className={`w-2.5 h-2.5  transition-opacity ${
                   isActive ? 'opacity-100' : 'opacity-30'
                 }`}
                 style={{ backgroundColor: platform.color }}
@@ -46,7 +46,7 @@ export function PlatformSelector() {
       </div>
       <Link
         href="/platforms"
-        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-indigo-600 mt-3 transition-colors"
+        className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 mt-3 transition-colors"
       >
         <Settings size={14} />
         플랫폼 추가 및 수수료 설정

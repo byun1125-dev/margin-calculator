@@ -48,7 +48,7 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-md w-full">
+      <div className="bg-white  max-w-md w-full">
         <div className="border-b border-gray-100 p-5 flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-gray-900">{platform.name} 수수료 설정</h2>
@@ -97,7 +97,7 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
             </div>
           )}
 
-          <div className="p-3 rounded-xl bg-indigo-50 text-xs text-indigo-700">
+          <div className="p-3  bg-gray-50 text-xs text-gray-900">
             <p className="font-semibold mb-1">💡 팁</p>
             <p>플랫폼마다 카테고리별로 수수료가 다릅니다. 내 상품 카테고리의 실제 수수료를 입력하세요.</p>
           </div>
@@ -106,20 +106,20 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
             {hasCustomFees && (
               <button
                 onClick={handleReset}
-                className="px-4 py-2.5 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2.5  border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 기본값으로
               </button>
             )}
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2.5  border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               취소
             </button>
             <button
               onClick={handleSave}
-              className="flex-1 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+              className="flex-1 px-4 py-2.5  bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
             >
               저장
             </button>

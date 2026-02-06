@@ -40,7 +40,7 @@ export function WorkspaceResults({
   const [activeTab, setActiveTab] = useState<TabId>('margin');
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+    <div className="bg-white  border border-gray-200 overflow-hidden">
       {/* 탭 헤더 */}
       <div className="border-b border-gray-200 bg-gray-50">
         <div className="flex overflow-x-auto scrollbar-hide">
@@ -53,7 +53,7 @@ export function WorkspaceResults({
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-all border-b-2 ${
                   isActive
-                    ? 'border-indigo-600 text-indigo-600 bg-white'
+                    ? 'border-indigo-600 text-gray-900 bg-white'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-100'
                 }`}
               >

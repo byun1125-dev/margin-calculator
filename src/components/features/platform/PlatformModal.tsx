@@ -63,7 +63,7 @@ export function PlatformModal({ isOpen, onClose, onSave, editingPlatform }: Plat
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white  max-w-lg w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white border-b border-gray-100 p-5 flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">
             {editingPlatform ? '플랫폼 수정' : '커스텀 플랫폼 추가'}
@@ -96,7 +96,7 @@ export function PlatformModal({ isOpen, onClose, onSave, editingPlatform }: Plat
                   key={color}
                   type="button"
                   onClick={() => setFormData({ ...formData, color })}
-                  className={`w-10 h-10 rounded-lg transition-all ${
+                  className={`w-10 h-10  transition-all ${
                     formData.color === color
                       ? 'ring-2 ring-offset-2 ring-indigo-500 scale-110'
                       : 'hover:scale-105'
@@ -108,7 +108,7 @@ export function PlatformModal({ isOpen, onClose, onSave, editingPlatform }: Plat
                 type="color"
                 value={formData.color || '#6366F1'}
                 onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                className="w-10 h-10 rounded-lg cursor-pointer border border-gray-200"
+                className="w-10 h-10  cursor-pointer border border-gray-200"
               />
             </div>
           </div>
@@ -240,7 +240,7 @@ export function PlatformModal({ isOpen, onClose, onSave, editingPlatform }: Plat
             <textarea
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:border-indigo-500 resize-none"
+              className="w-full px-3 py-2  border border-gray-300 text-sm focus:outline-none focus:border-gray-900 resize-none"
               rows={3}
               placeholder="플랫폼에 대한 간단한 설명"
             />
@@ -250,13 +250,13 @@ export function PlatformModal({ isOpen, onClose, onSave, editingPlatform }: Plat
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2.5  border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               취소
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+              className="flex-1 px-4 py-2.5  bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
             >
               {editingPlatform ? '수정' : '추가'}
             </button>

@@ -145,7 +145,7 @@ export function WorkspaceComparisonTab({
                   <td className="px-6 py-3 sticky left-0 bg-white">
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-2.5 h-2.5 rounded-full"
+                        className="w-2.5 h-2.5 "
                         style={{
                           backgroundColor: platformMap[r.platformId]?.color ?? '#888',
                         }}

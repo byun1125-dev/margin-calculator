@@ -63,7 +63,7 @@ export default function ProductsPage() {
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors"
+          className="flex items-center gap-1.5 px-4 py-2.5  bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors"
         >
           <Plus size={16} />
           현재 설정 저장
@@ -86,7 +86,7 @@ export default function ProductsPage() {
             <button
               onClick={handleSaveCurrentAsProduct}
               disabled={!newName.trim()}
-              className="px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-4 py-2.5  bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               저장
             </button>
@@ -146,20 +146,20 @@ export default function ProductsPage() {
                 <div className="flex gap-2 mt-4 pt-3 border-t border-gray-100">
                   <button
                     onClick={() => handleLoadProduct(product.id)}
-                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-medium hover:bg-indigo-100 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1 px-3 py-2  bg-gray-50 text-gray-900 text-xs font-medium hover:bg-gray-100 transition-colors"
                   >
                     <ArrowRight size={14} />
                     불러오기
                   </button>
                   <button
                     onClick={() => duplicateProduct(product.id)}
-                    className="p-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                    className="p-2  text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                   >
                     <Copy size={14} />
                   </button>
                   <button
                     onClick={() => deleteProduct(product.id)}
-                    className="p-2 rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                    className="p-2  text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
                   >
                     <Trash2 size={14} />
                   </button>

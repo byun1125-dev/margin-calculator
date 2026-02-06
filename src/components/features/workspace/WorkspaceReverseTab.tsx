@@ -58,11 +58,11 @@ export function WorkspaceReverseTab({
   return (
     <div className="space-y-6">
       {/* 설명 섹션 */}
-      <div className="p-4 rounded-xl bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-100">
-        <h3 className="text-sm font-bold text-indigo-900 mb-2">💡 가격 역산이란?</h3>
-        <p className="text-sm text-indigo-800 leading-relaxed">
+      <div className="p-3 bg-gray-50 border border-gray-200">
+        <h3 className="text-xs font-bold text-gray-900 mb-1 uppercase">가격 역산이란?</h3>
+        <p className="text-xs text-gray-700 leading-relaxed">
           <strong>얼마를 남기고 싶은지</strong> 입력하면, 수수료를 고려한
-          <strong className="text-indigo-600"> 필요 판매가</strong>를 자동으로 계산해드립니다.
+          <strong> 필요 판매가</strong>를 자동으로 계산해드립니다.
         </p>
       </div>
 
@@ -71,12 +71,12 @@ export function WorkspaceReverseTab({
           <h3 className="text-lg font-semibold text-gray-900">목표 이익 설정</h3>
 
           {/* 모드 토글 */}
-          <div className="inline-flex rounded-lg border border-gray-300 bg-white p-0.5">
+          <div className="inline-flex  border border-gray-300 bg-white p-0.5">
             <button
               onClick={() => setMode('amount')}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
                 mode === 'amount'
-                  ? 'bg-indigo-600 text-white shadow-sm'
+                  ? 'bg-gray-900 text-white '
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -86,7 +86,7 @@ export function WorkspaceReverseTab({
               onClick={() => setMode('percent')}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
                 mode === 'percent'
-                  ? 'bg-indigo-600 text-white shadow-sm'
+                  ? 'bg-gray-900 text-white '
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -113,13 +113,13 @@ export function WorkspaceReverseTab({
               }}
               placeholder="3000"
             />
-            <div className="mt-3 p-3 rounded-lg bg-indigo-50 text-xs text-indigo-700">
+            <div className="mt-3 p-3  bg-gray-50 text-xs text-gray-900">
               <p className="font-semibold mb-1">예시</p>
               <p>• 원가 10,000원</p>
               <p>• 목표 이익 <strong>3,000원</strong></p>
               <p>• 쿠팡 수수료 10%</p>
               <p className="mt-1 text-indigo-900">→ 필요 판매가: <strong>약 14,444원</strong></p>
-              <p className="text-[10px] mt-1 text-indigo-600">
+              <p className="text-[10px] mt-1 text-gray-900">
                 (14,444원 판매 시 → 수수료 1,444원 제외 → 순이익 3,000원 ✓)
               </p>
             </div>
@@ -138,13 +138,13 @@ export function WorkspaceReverseTab({
             <p className="text-xs text-gray-500 mt-2">
               판매가의 {targetPercent}%를 순이익으로 남기기
             </p>
-            <div className="mt-3 p-3 rounded-lg bg-indigo-50 text-xs text-indigo-700">
+            <div className="mt-3 p-3  bg-gray-50 text-xs text-gray-900">
               <p className="font-semibold mb-1">예시</p>
               <p>• 원가 10,000원</p>
               <p>• 목표: 판매가의 <strong>30% 마진</strong></p>
               <p>• 쿠팡 수수료 10%</p>
               <p className="mt-1 text-indigo-900">→ 필요 판매가: <strong>약 16,667원</strong></p>
-              <p className="text-[10px] mt-1 text-indigo-600">
+              <p className="text-[10px] mt-1 text-gray-900">
                 (16,667원 판매 시 → 수수료 1,667원, 원가 10,000원 제외 → 순이익 5,000원 = 판매가의 30%)
               </p>
             </div>
@@ -180,16 +180,16 @@ export function WorkspaceReverseTab({
               return (
                 <div
                   key={platformId}
-                  className={`p-4 rounded-xl border-2 transition-all ${
+                  className={`p-4  border-2 transition-all ${
                     price > 0
-                      ? 'bg-white border-indigo-200 hover:border-indigo-300 hover:shadow-md'
+                      ? 'bg-white border-gray-300 hover:border-gray-400 hover:'
                       : 'bg-gray-50 border-gray-200'
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-10 h-10 rounded-xl flex-shrink-0"
+                        className="w-10 h-10  flex-shrink-0"
                         style={{ backgroundColor: platform?.color ?? '#888' }}
                       />
                       <div>
@@ -204,7 +204,7 @@ export function WorkspaceReverseTab({
                     <div className="text-right">
                       {price > 0 ? (
                         <>
-                          <p className="text-2xl font-bold text-indigo-600">
+                          <p className="text-2xl font-bold text-gray-900">
                             {formatNumber(price)}원
                           </p>
                           <p className="text-xs text-emerald-600 font-medium mt-1">
@@ -248,7 +248,7 @@ export function WorkspaceReverseTab({
         )}
       </div>
 
-      <div className="p-4 rounded-xl bg-amber-50 border border-amber-200">
+      <div className="p-4  bg-amber-50 border border-amber-200">
         <h4 className="text-sm font-semibold text-amber-900 mb-2">💡 이렇게 활용하세요</h4>
         <ul className="text-xs text-amber-800 space-y-1.5">
           <li>• <strong>금액 모드:</strong> "3,000원을 남기고 싶다" → 얼마에 팔아야 하는지 계산</li>

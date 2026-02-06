@@ -29,10 +29,10 @@ export function MobileNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg text-xs transition-colors
-                ${isActive ? 'text-indigo-600' : 'text-gray-400'}`}
+              className={`flex flex-col items-center gap-0.5 px-2 py-1 text-xs transition-colors
+                ${isActive ? 'text-gray-900 font-medium' : 'text-gray-400'}`}
             >
-              <Icon size={20} />
+              <Icon size={18} />
               <span>{item.label}</span>
             </Link>
           );

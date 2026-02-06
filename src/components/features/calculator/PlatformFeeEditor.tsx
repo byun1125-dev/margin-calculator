@@ -36,10 +36,10 @@ export function PlatformFeeEditor() {
             const paymentRate = config?.paymentFeeRate ?? platform.paymentFee.default;
 
             return (
-              <div key={platform.id} className="p-3 rounded-xl bg-gray-50 space-y-2">
+              <div key={platform.id} className="p-3  bg-gray-50 space-y-2">
                 <div className="flex items-center gap-2">
                   <div
-                    className="w-2.5 h-2.5 rounded-full"
+                    className="w-2.5 h-2.5 "
                     style={{ backgroundColor: platform.color }}
                   />
                   <span className="text-sm font-semibold text-gray-800">{platform.name}</span>
@@ -53,7 +53,7 @@ export function PlatformFeeEditor() {
                         step="0.1"
                         min="0"
                         max="100"
-                        className="w-full px-2 py-1.5 rounded-lg border border-gray-300 text-sm text-right focus:outline-none focus:border-indigo-500"
+                        className="w-full px-2 py-1.5  border border-gray-300 text-sm text-right focus:outline-none focus:border-gray-900"
                         value={(salesRate * 100).toFixed(1)}
                         onChange={(e) =>
                           setPlatformConfig(platform.id, {
@@ -77,7 +77,7 @@ export function PlatformFeeEditor() {
                           step="0.1"
                           min="0"
                           max="100"
-                          className="w-full px-2 py-1.5 rounded-lg border border-gray-300 text-sm text-right focus:outline-none focus:border-indigo-500"
+                          className="w-full px-2 py-1.5  border border-gray-300 text-sm text-right focus:outline-none focus:border-gray-900"
                           value={(paymentRate * 100).toFixed(1)}
                           onChange={(e) =>
                             setPlatformConfig(platform.id, {
