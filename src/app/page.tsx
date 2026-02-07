@@ -67,11 +67,11 @@ export default function HomePage() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <div className="border-b border-gray-200 pb-4">
-        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <LayoutDashboard size={20} className="text-gray-900" />
+        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <LayoutDashboard size={24} className="text-gray-900" />
           대시보드
         </h2>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-sm text-gray-500 mt-1">
           현재 작업 중인 계산 결과와 저장된 상품 현황입니다.
         </p>
       </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
         {/* 1. 상품 현황 */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-medium text-gray-500 uppercase">관리 중인 상품</h3>
+            <h3 className="text-sm font-bold text-gray-900 uppercase">관리 중인 상품</h3>
             <Package size={16} className="text-gray-400" />
           </div>
           <div className="flex items-baseline gap-2">
@@ -101,7 +101,7 @@ export default function HomePage() {
         {/* 2. 현재 작업 중 (최근 계산) */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-medium text-gray-500 uppercase">최근 계산 결과</h3>
+            <h3 className="text-sm font-bold text-gray-900 uppercase">최근 계산 결과</h3>
             <Layers size={16} className="text-gray-400" />
           </div>
           {isCalculating ? (
@@ -139,7 +139,7 @@ export default function HomePage() {
         {/* 3. 손익분기점 바로가기 */}
         <Card>
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-xs font-medium text-gray-500 uppercase">목표 달성 시뮬레이터</h3>
+            <h3 className="text-sm font-bold text-gray-900 uppercase">목표 달성 시뮬레이터</h3>
             <TrendingUp size={16} className="text-gray-400" />
           </div>
           <p className="text-xs text-gray-600 mb-2">

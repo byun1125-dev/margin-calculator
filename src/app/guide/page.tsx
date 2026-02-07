@@ -17,18 +17,18 @@ export default function GuidePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="border-b border-gray-200 pb-4">
-        <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <BookOpen size={20} className="text-gray-900" />
+        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <BookOpen size={24} className="text-gray-900" />
           사용 가이드
         </h1>
-        <p className="text-xs text-gray-500 mt-1">
+        <p className="text-sm text-gray-500 mt-1">
           마진 계산기의 모든 기능을 쉽게 이해하고 활용해보세요
         </p>
       </div>
 
       {/* 시작하기 */}
       <section>
-        <h2 className="text-base font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200">
+        <h2 className="text-sm font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200 uppercase">
           시작하기
         </h2>
         
@@ -60,7 +60,7 @@ export default function GuidePage() {
 
       {/* 주요 기능 */}
       <section>
-        <h2 className="text-base font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200">
+        <h2 className="text-sm font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200 uppercase">
           주요 기능
         </h2>
 
@@ -229,7 +229,7 @@ export default function GuidePage() {
 
       {/* FAQ */}
       <section>
-        <h2 className="text-base font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200">
+        <h2 className="text-sm font-bold text-gray-900 mb-3 pb-2 border-b border-gray-200 uppercase">
           자주 묻는 질문
         </h2>
 

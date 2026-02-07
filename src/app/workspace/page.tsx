@@ -26,7 +26,7 @@ export default function WorkspacePage() {
     <div className="max-w-7xl mx-auto">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Calculator size={28} />
+          <Calculator size={24} />
           워크스페이스
         </h2>
         <p className="text-sm text-gray-500 mt-1">

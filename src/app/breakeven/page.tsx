@@ -116,7 +116,7 @@ export default function BreakevenPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <TrendingUp className="text-gray-900" />
+            <TrendingUp size={24} className="text-gray-900" />
             목표 이익 시뮬레이터
           </h2>
           <p className="text-sm text-gray-500 mt-1">
