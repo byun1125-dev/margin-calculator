@@ -7,13 +7,14 @@ import {
   Layers,
   Package,
   Settings,
+  BookOpen,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/', label: '홈', icon: LayoutDashboard },
   { href: '/workspace', label: '워크스페이스', icon: Layers },
   { href: '/products', label: '상품', icon: Package },
-  { href: '/platforms', label: '설정', icon: Settings },
+  { href: '/guide', label: '가이드', icon: BookOpen },
 ];
 
 export function MobileNav() {
