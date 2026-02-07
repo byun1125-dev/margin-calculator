@@ -5,13 +5,13 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 
 // 환경 변수 입력 없이 바로 배포되도록 값을 직접 입력했습니다.
 const firebaseConfig = {
-  apiKey: "AIzaSyAzEcP0cQBuN8KCJ4a_24Ig9aMoTjYqp8g",
-  authDomain: "margin-8a4fb.firebaseapp.com",
-  projectId: "margin-8a4fb",
-  storageBucket: "margin-8a4fb.firebasestorage.app",
-  messagingSenderId: "627452716991",
-  appId: "1:627452716991:web:f0cf3d3f3e9222d24ea30a",
-  measurementId: "G-Z2R3JHTVDE",
+  apiKey: "AIzaSyAgwLQW7OtiYJQXR8JXhh3TVCZUrM6s_ds",
+  authDomain: "margin-1bf49.firebaseapp.com",
+  projectId: "margin-1bf49",
+  storageBucket: "margin-1bf49.firebasestorage.app",
+  messagingSenderId: "119337661808",
+  appId: "1:119337661808:web:f0c440762bc17d96e10bb5",
+  measurementId: "G-CS71XSYGVK",
 };
 
 // Initialize Firebase (singleton pattern)
