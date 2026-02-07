@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { MarginCalculationResult } from '@/types/calculation';
 import { Badge } from '@/components/ui/Badge';
 import { formatNumber } from '@/lib/utils/formatCurrency';
@@ -21,22 +22,37 @@ export function MarginResultCard({ result, originalPrice }: MarginResultCardProp
   const discount = platformConfigs[result.platformId]?.discount;
   const hasDiscount = discount?.enabled;
   
+  // 로컬 상태로 입력 값 관리
+  const [localPercent, setLocalPercent] = useState(discount?.percentOff ?? 10);
+
+  // discount가 변경되면 로컬 상태 동기화
+  useEffect(() => {
+    if (discount?.percentOff !== undefined) {
+      setLocalPercent(discount.percentOff);
+    }
+  }, [discount?.percentOff]);
+  
   const toggleDiscount = () => {
     const currentDiscount = platformConfigs[result.platformId]?.discount;
     setPlatformConfig(result.platformId, {
       discount: {
         enabled: !currentDiscount?.enabled,
-        percentOff: currentDiscount?.percentOff ?? 10,
+        percentOff: localPercent,
         amountOff: 0,
       },
     });
   };
   
   const updateDiscountPercent = (value: number) => {
+    setLocalPercent(value);
+  };
+
+  // blur 시점에만 실제 저장
+  const handleBlur = () => {
     setPlatformConfig(result.platformId, {
       discount: {
         enabled: true,
-        percentOff: value,
+        percentOff: localPercent,
         amountOff: 0,
       },
     });
@@ -74,9 +90,10 @@ export function MarginResultCard({ result, originalPrice }: MarginResultCardProp
                 min="0"
                 max="100"
                 step="1"
-                value={discount?.percentOff ?? 0}
+                value={localPercent}
                 onChange={(e) => updateDiscountPercent(parseFloat(e.target.value) || 0)}
-                className="w-16 px-2 py-1 text-sm text-right rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                onBlur={handleBlur}
+                className="w-16 px-2 py-1 text-sm text-right border border-gray-300 focus:outline-none focus:border-gray-900"
                 placeholder="0"
               />
               <span className="text-sm text-gray-600">%</span>
