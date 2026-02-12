@@ -176,13 +176,13 @@ export default function BreakevenPage() {
           <Card className={`h-full flex flex-col justify-center transition-colors ${isGoalReached ? 'bg-gray-50 border-gray-900' : ''}`}>
             <div className="text-center mb-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                {isGoalReached ? '🎉 목표 달성! 축하합니다!' : '목표까지 열심히 달려봐요!'}
+                {isGoalReached ? '목표 달성! 축하합니다!' : '목표까지 열심히 달려봐요!'}
               </h3>
               <p className="text-3xl font-bold text-gray-900 mt-2">
                 {formatNumber(currentProfit)}원 <span className="text-base text-gray-400 font-normal">/ {formatNumber(totalGoal)}원</span>
               </p>
               <p className={`text-sm text-red-500 font-medium mt-2 ${isGoalReached ? 'invisible' : 'visible'}`}>
-                {formatNumber(remainingAmount)}원 더 벌어야 해요 🔥
+                {formatNumber(remainingAmount)}원 더 벌어야 해요
               </p>
             </div>
 

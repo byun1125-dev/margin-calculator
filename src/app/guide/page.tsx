@@ -97,7 +97,7 @@ export default function GuidePage() {
             </div>
 
             <div className="mt-3 p-2 bg-gray-50 border-l-2 border-gray-900 text-xs">
-              <strong>Tip:</strong> 할인 적용 체크박스로 플랫폼별로 다른 할인율을 바로 적용할 수 있습니다!
+              <strong>Tip:</strong> 할인 적용 체크박스로 플랫폼별로 다른 할인율을 바로 적용할 수 있습니다.
             </div>
           </Card>
 
@@ -125,7 +125,7 @@ export default function GuidePage() {
             </div>
 
             <div className="mt-3 p-2 bg-gray-50 border-l-2 border-gray-900 text-xs">
-              <strong>Tip:</strong> 플랫폼별로 수수료가 다르니 가장 낮은 가격을 찾아보세요!
+              <strong>Tip:</strong> 플랫폼별로 수수료가 다르니 가장 낮은 가격을 찾아보세요.
             </div>
           </Card>
 
@@ -157,7 +157,7 @@ export default function GuidePage() {
             </div>
 
             <div className="mt-3 p-2 bg-gray-50 border-l-2 border-gray-900 text-xs">
-              <strong>참고:</strong> 이 기능을 사용하려면 먼저 상품을 등록해야 합니다!
+              <strong>참고:</strong> 이 기능을 사용하려면 먼저 상품을 등록해야 합니다.
             </div>
           </Card>
 
@@ -189,7 +189,7 @@ export default function GuidePage() {
             </div>
 
             <div className="mt-3 p-2 bg-gray-50 border-l-2 border-gray-900 text-xs">
-              <strong>중요:</strong> 로그인하면 여러 기기에서 동일한 상품 데이터를 사용할 수 있습니다!
+              <strong>중요:</strong> 로그인하면 여러 기기에서 동일한 상품 데이터를 사용할 수 있습니다.
             </div>
           </Card>
 

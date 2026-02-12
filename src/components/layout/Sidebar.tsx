@@ -3,15 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Calculator,
-  BarChart3,
-  Percent,
-  TrendingUp,
-  Package,
-  LayoutDashboard,
-  Layers,
-  Settings,
-  BookOpen,
   LogIn,
   User,
   LogOut,
@@ -21,12 +12,12 @@ import { logout } from '@/lib/auth';
 import { useState } from 'react';
 
 const navItems = [
-  { href: '/', label: '대시보드', icon: LayoutDashboard },
-  { href: '/workspace', label: '워크스페이스', icon: Layers, highlight: true },
-  { href: '/breakeven', label: '손익분기점', icon: TrendingUp },
-  { href: '/products', label: '상품 관리', icon: Package },
-  { href: '/platforms', label: '플랫폼 관리', icon: Settings },
-  { href: '/guide', label: '가이드', icon: BookOpen },
+  { href: '/', label: '대시보드', highlight: false },
+  { href: '/workspace', label: '워크스페이스', highlight: true },
+  { href: '/breakeven', label: '손익분기점', highlight: false },
+  { href: '/products', label: '상품 관리', highlight: false },
+  { href: '/platforms', label: '플랫폼 관리', highlight: false },
+  { href: '/guide', label: '가이드', highlight: false },
 ];
 
 export function Sidebar() {
@@ -48,7 +39,6 @@ export function Sidebar() {
       <nav className="flex-1 p-4 space-y-0.5">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-          const Icon = item.icon;
           return (
             <Link
               key={item.href}
@@ -60,7 +50,6 @@ export function Sidebar() {
                 }
               `}
             >
-              <Icon size={16} />
               {item.label}
               {item.highlight && !isActive && (
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[9px] font-bold text-gray-900 border border-gray-900 px-1 py-0.5">

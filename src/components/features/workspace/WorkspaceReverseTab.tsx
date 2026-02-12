@@ -120,7 +120,7 @@ export function WorkspaceReverseTab({
               <p>• 쿠팡 수수료 10%</p>
               <p className="mt-1 text-indigo-900">→ 필요 판매가: <strong>약 14,444원</strong></p>
               <p className="text-[10px] mt-1 text-gray-900">
-                (14,444원 판매 시 → 수수료 1,444원 제외 → 순이익 3,000원 ✓)
+                (14,444원 판매 시 → 수수료 1,444원 제외 → 순이익 3,000원)
               </p>
             </div>
           </div>
@@ -236,7 +236,7 @@ export function WorkspaceReverseTab({
                       <div className="flex justify-between text-sm pt-2 border-t border-gray-200">
                         <span className="font-semibold text-gray-900">순이익</span>
                         <span className="font-bold text-emerald-600">
-                          {formatNumber(expectedProfit)}원 ✓
+                          {formatNumber(expectedProfit)}원
                         </span>
                       </div>
                     </div>
@@ -249,7 +249,7 @@ export function WorkspaceReverseTab({
       </div>
 
       <div className="p-4  bg-amber-50 border border-amber-200">
-        <h4 className="text-sm font-semibold text-amber-900 mb-2">💡 이렇게 활용하세요</h4>
+        <h4 className="text-sm font-semibold text-amber-900 mb-2">이렇게 활용하세요</h4>
         <ul className="text-xs text-amber-800 space-y-1.5">
           <li>• <strong>금액 모드:</strong> "3,000원을 남기고 싶다" → 얼마에 팔아야 하는지 계산</li>
           <li>• <strong>비율 모드:</strong> "판매가의 30% 마진을 확보하고 싶다" → 필요 판매가 계산</li>

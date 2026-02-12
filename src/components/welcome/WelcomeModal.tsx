@@ -28,7 +28,7 @@ export function WelcomeModal() {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white max-w-md w-full border border-gray-200">
         <div className="border-b border-gray-200 p-5 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">마진 계산기에 오신 것을 환영합니다! 👋</h2>
+          <h2 className="text-lg font-bold text-gray-900">마진 계산기에 오신 것을 환영합니다!</h2>
           <button
             onClick={handleClose}
             className="p-1 text-gray-400 hover:text-gray-600 transition-colors"
@@ -39,7 +39,7 @@ export function WelcomeModal() {
 
         <div className="p-5 space-y-4">
           <div>
-            <h3 className="text-sm font-bold text-gray-900 mb-2">🚀 빠른 시작</h3>
+            <h3 className="text-sm font-bold text-gray-900 mb-2">빠른 시작</h3>
             <p className="text-xs text-gray-600">
               스몰 브랜드를 위한 마진 계산기입니다. 
               플랫폼별 수수료, 마진율, 손익분기점을 쉽고 빠르게 계산해보세요.

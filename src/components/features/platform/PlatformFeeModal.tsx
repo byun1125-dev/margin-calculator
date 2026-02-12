@@ -135,7 +135,7 @@ export function PlatformFeeModal({ isOpen, onClose, platform }: PlatformFeeModal
           )}
 
           <div className="p-3  bg-gray-50 text-xs text-gray-900">
-            <p className="font-semibold mb-1">💡 팁</p>
+            <p className="font-semibold mb-1">팁</p>
             <p>플랫폼마다 카테고리별로 수수료가 다릅니다. 내 상품 카테고리의 실제 수수료를 입력하세요.</p>
           </div>
 
