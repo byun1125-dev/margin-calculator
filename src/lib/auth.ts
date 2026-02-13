@@ -11,11 +11,12 @@ import {
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 
-// 인앱 브라우저 감지 (Instagram, Facebook, KakaoTalk, LINE, Naver 등)
+// 인앱 브라우저 감지 (Instagram, Threads, Facebook, KakaoTalk, LINE, Naver 등)
 export function isInAppBrowser(): boolean {
   if (typeof window === 'undefined') return false;
   const ua = navigator.userAgent || navigator.vendor || '';
-  return /FBAN|FBAV|Instagram|KAKAOTALK|Line|NAVER|Daum|SamsungBrowser\/\d.*Mobile VR/i.test(ua);
+  // 주요 인앱 브라우저 + 일반 WebView 감지
+  return /FBAN|FBAV|Instagram|Threads|Barcelona|KAKAOTALK|Line\/|NAVER|Daum|wv|WebView/i.test(ua);
 }
 
 // 이메일 회원가입
