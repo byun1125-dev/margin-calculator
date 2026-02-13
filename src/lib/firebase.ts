@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getAnalytics, Analytics } from 'firebase/analytics';
-import { getAuth, Auth } from 'firebase/auth';
+import { getAuth, browserLocalPersistence, setPersistence } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 
 // 환경 변수 입력 없이 바로 배포되도록 값을 직접 입력했습니다.
@@ -17,8 +17,11 @@ const firebaseConfig = {
 // Initialize Firebase (singleton pattern)
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-// Initialize Auth
+// Initialize Auth (로그인 상태를 localStorage에 유지 - 탭/브라우저 닫아도 유지)
 const auth = getAuth(app);
+if (typeof window !== 'undefined') {
+  setPersistence(auth, browserLocalPersistence);
+}
 
 // Initialize Firestore
 const db = getFirestore(app);
