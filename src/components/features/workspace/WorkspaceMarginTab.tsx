@@ -62,15 +62,7 @@ export function WorkspaceMarginTab({
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-gray-400 text-sm">계산 중...</p>
-      </div>
-    );
-  }
-
-  if (results.length === 0) {
+  if (results.length === 0 && !isLoading) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-400 text-sm">
@@ -80,9 +72,22 @@ export function WorkspaceMarginTab({
     );
   }
 
+  if (results.length === 0 && isLoading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-400 text-sm">계산 중...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">플랫폼별 마진 결과</h3>
+      <div className="flex items-center gap-2 mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">플랫폼별 마진 결과</h3>
+        {isLoading && (
+          <span className="text-xs text-gray-400">갱신 중...</span>
+        )}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {results.map((result) => (
           <MarginResultCard
