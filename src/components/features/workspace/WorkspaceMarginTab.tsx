@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { CostBreakdown } from '@/types/product';
 import { PlatformId, PlatformUserConfig, PlatformConfig } from '@/types/platform';
 import { MarginCalculationResult } from '@/types/calculation';
@@ -28,6 +28,15 @@ export function WorkspaceMarginTab({
 
   const debouncedPrice = useDebounce(sellingPrice, 300);
   const debouncedCosts = useDebounce(costs, 300);
+  const debouncedConfigs = useDebounce(platformConfigs, 300);
+
+  // 안정적인 의존성 키 (객체 참조 대신 값 비교)
+  const configsKey = useMemo(() => JSON.stringify(debouncedConfigs), [debouncedConfigs]);
+  const platformsKey = useMemo(() => JSON.stringify(activePlatforms), [activePlatforms]);
+
+  // 최신 configs 참조 (useEffect 안에서 사용)
+  const configsRef = useRef(debouncedConfigs);
+  configsRef.current = debouncedConfigs;
 
   useEffect(() => {
     if (debouncedPrice === 0) {
@@ -38,7 +47,7 @@ export function WorkspaceMarginTab({
     let cancelled = false;
     setIsLoading(true);
 
-    calculateAllPlatformsApi(debouncedPrice, debouncedCosts, activePlatforms, platformConfigs)
+    calculateAllPlatformsApi(debouncedPrice, debouncedCosts, activePlatforms, configsRef.current)
       .then((data) => {
         if (!cancelled) setResults(data);
       })
@@ -50,7 +59,7 @@ export function WorkspaceMarginTab({
       });
 
     return () => { cancelled = true; };
-  }, [debouncedPrice, debouncedCosts, activePlatforms, platformConfigs]);
+  }, [debouncedPrice, debouncedCosts, platformsKey, configsKey]);
 
   if (sellingPrice === 0) {
     return (
