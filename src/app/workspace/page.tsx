@@ -7,11 +7,11 @@ import { useHydration } from '@/hooks/useHydration';
 import { CostInputForm } from '@/components/features/calculator/CostInputForm';
 import { PlatformSelector } from '@/components/features/calculator/PlatformSelector';
 import { WorkspaceResults } from '@/components/features/workspace/WorkspaceResults';
-import { Calculator } from 'lucide-react';
+import { Calculator, RotateCcw } from 'lucide-react';
 
 export default function WorkspacePage() {
   const hydrated = useHydration();
-  const { costs, sellingPrice, activePlatforms, platformConfigs } = useCalculatorStore();
+  const { costs, sellingPrice, activePlatforms, platformConfigs, reset } = useCalculatorStore();
   const { customPlatforms } = useCustomPlatformStore();
 
   if (!hydrated) {
@@ -24,14 +24,23 @@ export default function WorkspacePage() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <Calculator size={24} />
-          워크스페이스
-        </h2>
-        <p className="text-sm text-gray-500 mt-1">
-          플랫폼별 할인 설정, 마진 비교, 가격 역산까지 한곳에서
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+            <Calculator size={24} />
+            워크스페이스
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            플랫폼별 할인 설정, 마진 비교, 가격 역산까지 한곳에서
+          </p>
+        </div>
+        <button
+          onClick={reset}
+          className="flex items-center justify-center gap-1.5 px-4 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors w-full sm:w-auto"
+        >
+          <RotateCcw size={16} />
+          초기화
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
