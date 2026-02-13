@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmail, signInWithGoogle, signUpWithEmail } from '@/lib/auth';
+import { signInWithEmail, signInWithGoogle, signUpWithEmail, handleGoogleRedirectResult, isInAppBrowser } from '@/lib/auth';
 import { Input } from '@/components/ui/Input';
 import { LogIn, Mail } from 'lucide-react';
 import Link from 'next/link';
@@ -16,6 +16,15 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
+  // redirect 방식 로그인 결과 처리 (인앱 브라우저용)
+  useEffect(() => {
+    handleGoogleRedirectResult().then((user) => {
+      if (user) {
+        router.push('/');
+      }
+    });
+  }, [router]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +61,12 @@ export default function LoginPage() {
     setGoogleLoading(true);
 
     try {
-      await signInWithGoogle();
-      router.push('/');
+      const user = await signInWithGoogle();
+      if (user) {
+        // popup 방식 성공
+        router.push('/');
+      }
+      // user가 null이면 redirect 방식이므로 페이지가 새로고침됨
     } catch (err: any) {
       console.error(err);
       if (err.code === 'auth/popup-closed-by-user') {
